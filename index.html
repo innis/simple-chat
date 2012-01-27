@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>초간단 채팅</title>
+        <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect();
+           
+            $(document).ready(function(){
+                socket.on("chat", function(data){
+                    $("ul").prepend("<li>" + data + "</li>");
+                });
+               
+                // 보내기 엔터이벤트
+                $("#inputMessage").keyup(function(e){
+                    if (e.keyCode == 13){
+                        var val = $("#inputMessage").val();
+                        if (val.length <= 0){
+                            return;
+                        }
+                        send(val);
+                        $("#inputMessage").val("");
+                    }
+                });
+            });
+           
+            function send(message){
+                socket.emit("chat", message);
+                $("ul").prepend("<li>" + message + "</li>");
+            }
+        </script>
+    </head>
+	<body>
+		<p>Hello!</p>
+        <input type="text" id="inputMessage" name="inputMessage"/>
+        <ul></ul>
+    </body>
+</html>

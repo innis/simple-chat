@@ -12,15 +12,13 @@
                     $("ul").prepend("<li>" + data + "</li>");
                 });
                
-                // 보내기 엔터이벤트
                 $("#inputMessage").keyup(function(e){
                     if (e.keyCode == 13){
-                        var val = $("#inputMessage").val();
-                        if (val.length <= 0){
-                            return;
+                        var val = $.trim($("#inputMessage").val());
+                        if (val.length > 0){
+                            send(val);
+                            $("#inputMessage").val("");
                         }
-                        send(val);
-                        $("#inputMessage").val("");
                     }
                 });
             });
